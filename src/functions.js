@@ -6,7 +6,10 @@ const COLLECTION_NAME = process.env.COLLECTION_NAME
 // Get : All
 export async function getAllDoc(req, res) {
     const db = dbConnect()
-    const collection = await db.collection(COLLECTION_NAME).find({}).limit(10).toArray()
+    const collection = await db.collection(COLLECTION_NAME)
+        .find({})
+        .limit(10)
+        .toArray()
 
     console.table(collection)
     res.send(collection)
@@ -17,7 +20,6 @@ export async function findDoc(req, res) {
     const { searchParam } = req.params
 
     const db = dbConnect()
-
     const collection = await db.collection(COLLECTION_NAME)
         .find( {ip_address: searchParam} )
         .toArray()
@@ -32,7 +34,8 @@ export async function postDoc(req, res) {
     // id":1,"first_name":"joseph","last_name":"Joestar","email":"jojostar@gmail.com","gender":"Male","ip_address":"162.20.62.203"
 
     const db = dbConnect()
-    const collection = await db.collection(COLLECTION_NAME).insertOne(newDoc)
+    const collection = await db.collection(COLLECTION_NAME)
+        .insertOne(newDoc)
         .catch(err => {
             res.status(500).send(err)
             return
